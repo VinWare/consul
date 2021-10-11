@@ -22,7 +22,11 @@ export default class ServiceInstanceService extends RepositoryService {
       params.uri = configuration.uri;
     }
     const instances = await this.authorizeBySlug(
-      async () => this.query(params),
+      async (resources) => {
+        const items = await this.query(params);
+        set(items, 'firstObject.Service.Resources', resources);
+        return items;
+      },
       ACCESS_READ,
       params
     );

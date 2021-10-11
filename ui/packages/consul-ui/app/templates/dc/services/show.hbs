@@ -90,7 +90,7 @@ as |items item dc|}}
       services=(eq item.Service.Kind 'terminating-gateway')
       upstreams=(eq item.Service.Kind 'ingress-gateway')
       instances=true
-      intentions=(not-eq item.Service.Kind 'terminating-gateway')
+      intentions=(and (can "read intentions for service" item=item.Service) (not-eq item.Service.Kind 'terminating-gateway'))
       routing=(and dc.MeshEnabled item.IsOrigin)
       tags=(not item.Service.Kind)
   )
@@ -177,6 +177,7 @@ as |items item dc|}}
               @name={{routeName}}
               @model={{assign (hash
                 items=items
+                item=item
                 tabs=tabs
               ) route.model}}
             as |o|>
