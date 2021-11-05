@@ -36,13 +36,19 @@ export default Component.extend({
     return getSplitters(get(this, 'chain.Nodes'));
   }),
   routes: computed('chain.Nodes', function() {
-    const routes = getRoutes(get(this, 'chain.Nodes'), this.dom.guid);
+    const routes =  getRoutes(get(this, 'chain.Nodes'), this.dom.guid);
+    // const routes = [];
+    console.log(`Routes:`);
+    for (const route of routes) {
+      console.log(route);
+    }
     // if we have no routes with a PathPrefix of '/' or one with no definition at all
     // then add our own 'default catch all'
     if (
       !routes.find(item => get(item, 'Definition.Match.HTTP.PathPrefix') === '/') &&
       !routes.find(item => typeof item.Definition === 'undefined')
     ) {
+      console.log('In this code');
       let nextNode;
       const resolverID = `resolver:${this.chain.ServiceName}.${this.chain.Namespace}.${this.chain.Datacenter}`;
       const splitterID = `splitter:${this.chain.ServiceName}.${this.chain.Namespace}`;

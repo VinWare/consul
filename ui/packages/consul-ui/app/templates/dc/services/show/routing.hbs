@@ -10,7 +10,6 @@ as |route|>
         name=route.params.name
       )
   }} as |loader|>
-
     <BlockSlot @name="error">
       <AppError
         @error={{loader.error}}
@@ -19,6 +18,12 @@ as |route|>
     </BlockSlot>
 
     <BlockSlot @name="loaded">
+<Routing::Notice 
+data-test-notice='shows-no-l7'
+@type='info'
+@for='no-l7'
+@action={{false}}
+/>
       <div class="tab-section">
         <Consul::DiscoveryChain
           @chain={{loader.data.Chain}}
